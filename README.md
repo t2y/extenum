@@ -1,11 +1,8 @@
 # extenum
 
 [![Build Status](https://travis-ci.org/t2y/extenum.svg?branch=master)](https://travis-ci.org/t2y/extenum/)
-
 [![Latest Version](https://pypip.in/version/extenum/badge.svg)](https://pypi.python.org/pypi/extenum/)
-
 [![Downloads](https://pypip.in/download/extenum/badge.svg)](https://pypi.python.org/pypi/extenum/)
-
 [![License](https://pypip.in/license/extenum/badge.svg)](https://pypi.python.org/pypi/extenum/)
 
 
