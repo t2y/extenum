@@ -29,13 +29,13 @@ setup(
     long_description=LONG_DESCRIPTION,
     classifiers=[
         'License :: OSI Approved :: Apache Software License',
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: POSIX',
-        'Programming Language :: Python :: 3 :: Only'
-        'Topic :: Software Development :: Libraries'
+        'Programming Language :: Python :: 3 :: Only',
+        'Topic :: Software Development :: Libraries',
     ],
     keywords=['enum'],
     author='Tetsuya Morimoto',
