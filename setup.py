@@ -40,7 +40,7 @@ setup(
     keywords=['enum'],
     author='Tetsuya Morimoto',
     author_email='tetsuya dot morimoto at gmail dot com',
-    url='t2y/extenum',
+    url='https://github.com/t2y/extenum',
     license='Apache License 2.0',
     platforms=['unix', 'linux', 'osx', 'windows'],
     packages=['extenum'],
