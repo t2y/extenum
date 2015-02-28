@@ -52,6 +52,51 @@ def test_constant_specific_method():
         assert 'common' == const.get_common()
 
 
+def test_strategy_enum_pattern():
+    class PayrollDay(ConstantSpecificEnum):
+
+        class PayType(ConstantSpecificEnum):
+            WEEKDAY = 1
+            WEEKEND = 2
+
+            overload = RegisterFactory()
+
+            @overload.register(WEEKDAY)
+            def overtime_pay(self, hours, pay_rate):
+                return 0 if hours <= 8 else (hours - 8) * pay_rate / 2
+
+            @overload.register(WEEKEND)
+            def overtime_pay(self, hours, pay_rate):
+                return hours * pay_rate / 2
+
+            def pay(self, hours_worked, pay_rate):
+                base_pay = hours_worked * pay_rate
+                overtime_pay = self.overtime_pay(hours_worked, pay_rate)
+                return base_pay + overtime_pay
+
+        MONDAY = PayType.WEEKDAY
+        TUESDAY = PayType.WEEKDAY
+        WEDNESDAY = PayType.WEEKDAY
+        THURSDAY = PayType.WEEKDAY
+        FRIDAY = PayType.WEEKDAY
+        SATURDAY = PayType.WEEKEND
+        SUNDAY = PayType.WEEKEND
+
+        def pay(self, hours_worked, pay_rate):
+            return self.value.pay(hours_worked, pay_rate)
+
+    weekday = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY']
+    weekend = ['SATURDAY', 'SUNDAY']
+    for name, const in PayrollDay.__members__.items():
+        if name in weekday:
+            assert const.pay(8, 1000.0) == 8000.0
+        elif name in weekend:
+            assert const.pay(8, 1000.0) == 12000.0
+        else:  # should be PayType
+            assert const._value_.WEEKDAY.overtime_pay(10, 100.0) == 100.0
+            assert const._value_.WEEKEND.overtime_pay(10, 100.0) == 500.0
+
+
 def test_raise_const_is_not_registered():
     with pytest.raises(ValueError) as excinfo:
         class TestEnum(ConstantSpecificEnum):
@@ -113,8 +158,8 @@ def test_work_as_planet_enum():
         overload = RegisterFactory()
 
         def __init__(self, mass, radius):
-            self.mass = mass       # in kilograms
-            self.radius = radius   # in meters
+            self.mass = mass      # in kilograms
+            self.radius = radius  # in meters
 
         @property
         def surface_gravity(self):
