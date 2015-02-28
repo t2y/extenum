@@ -42,18 +42,26 @@ class RegisterFactory:
 
 class _ConstantSpecificMeta(EnumMeta):
     def __new__(metacls, cls, bases, classdict):
+        factory_instance = None
+        factory_items = list(filter(
+            lambda t: isinstance(t[1], RegisterFactory), classdict.items()))
+        if factory_items:
+            name, _ = factory_items[0]
+            factory_instance = classdict.pop(name)
+            classdict._member_names.pop(classdict._member_names.index(name))
+
         enum_class = super(
             _ConstantSpecificMeta, metacls
         ).__new__(metacls, cls, bases, classdict)
-        for name, const in enum_class._member_map_.items():
-            if isinstance(const.value, RegisterFactory):
-                factory_instance = enum_class._member_map_.pop(name).value
-                enum_class._method_register = factory_instance.register
+
+        if factory_instance is not None:
+            enum_class._method_register = factory_instance.register
 
         wrapped_methods = {key for key, value in classdict.items()
                            if hasattr(value, '__wrapped__')}
         if wrapped_methods:
             metacls._validate_method_is_registered(enum_class, wrapped_methods)
+
         return enum_class
 
     @staticmethod
