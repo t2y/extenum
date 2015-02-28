@@ -2,6 +2,13 @@
 
 [![Build Status](https://travis-ci.org/t2y/extenum.svg?branch=master)](https://travis-ci.org/t2y/extenum/)
 
+[![Latest Version](https://pypip.in/version/extenum/badge.svg)](https://pypi.python.org/pypi/extenum/)
+
+[![Downloads](https://pypip.in/download/extenum/badge.svg)](https://pypi.python.org/pypi/extenum/)
+
+[![License](https://pypip.in/license/extenum/badge.svg)](https://pypi.python.org/pypi/extenum/)
+
+
 Extended Enum classes for the Python 3 enum module.
 
 The [enum](https://docs.python.org/3/library/enum.html) module was added
