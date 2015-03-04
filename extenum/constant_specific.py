@@ -9,6 +9,7 @@ __all__ = [
 
 
 class _MethodRegister:
+
     def __init__(self):
         self.cache = {}
 
@@ -33,6 +34,7 @@ class _MethodRegister:
 
 
 class RegisterFactory:
+
     def __init__(self):
         self.register = _MethodRegister()
 
@@ -41,6 +43,7 @@ class RegisterFactory:
 
 
 class _ConstantSpecificMeta(EnumMeta):
+
     def __new__(metacls, cls, bases, classdict):
         factory_instance = None
         factory_items = list(filter(
@@ -50,9 +53,7 @@ class _ConstantSpecificMeta(EnumMeta):
             factory_instance = classdict.pop(name)
             classdict._member_names.pop(classdict._member_names.index(name))
 
-        enum_class = super(
-            _ConstantSpecificMeta, metacls
-        ).__new__(metacls, cls, bases, classdict)
+        enum_class = super().__new__(metacls, cls, bases, classdict)
 
         if factory_instance is not None:
             enum_class._method_register = factory_instance.register
