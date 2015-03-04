@@ -123,3 +123,64 @@ The strategy enum is more complex pattern based on constant specific method.
 12000.0
 
 ```
+
+
+## ImplicitEnum
+
+Before describing what *ImplicitEnum* class is, read good article written by
+Nick Coghlan as below.
+
+* [Support for alternate declaration syntaxes](http://python-notes.curiousefficiency.org/en/latest/python3/enum_creation.html#support-for-alternate-declaration-syntaxes)
+
+OK. I guess you've already understood why the standard enum module haven't
+supported implicit declaration syntax.
+
+Put aside its needs for now, Nick indicates how to implement *ImplicitEnum*.
+So, let's try to implement it experimentally using the special method,
+`__missing__` in defaultdict and `__prepare__` in Metaclass.
+
+```python
+>>> from extenum import ImplicitEnum
+>>> class Color(ImplicitEnum):
+...     RED
+...     GREEN
+...     BLUE
+...
+>>> for name, const in Color.__members__.items():
+...     print(name, ':', const.value)
+...
+RED : 1
+GREEN : 2
+BLUE : 3
+
+```
+
+It works well if some constants are explicit and the rest are implicit.
+
+```python
+>>> class Numbers(ImplicitEnum):
+...     ONE = 1
+...     TWO = 2
+...     THREE
+...
+>>> Numbers.THREE.value
+3
+
+```
+
+However, it depends on the declation order.
+
+```python
+>>> class DuplicatedValues(ImplicitEnum):
+...     ONE
+...     TWO = 1
+...     THREE = 1
+...
+>>> DuplicatedValues.ONE.value
+1
+>>> DuplicatedValues.TWO.value
+1
+>>> DuplicatedValues.THREE.value
+1
+
+```
