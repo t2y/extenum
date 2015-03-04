@@ -133,18 +133,7 @@ def test_raise_function_is_not_registered():
     assert str(excinfo.value) == expected
 
 
-def test_work_as_normal_enum():
-    members = 'ant bee cat dog'
-    Animal = ConstantSpecificEnum('Animal', members)
-    assert len(members.split()) == len(list(Animal))
-    for i, member in enumerate(members.split(), 1):
-        const = Animal.__members__.get(member)
-        assert const is not None
-        assert const.name == member
-        assert const.value == i
-
-
-def test_work_as_planet_enum():
+def test_work_as_planet_constant_specific_enum():
     class Planet(ConstantSpecificEnum):
         MERCURY = (3.303e+23, 2.4397e6)
         VENUS = (4.869e+24, 6.0518e6)
