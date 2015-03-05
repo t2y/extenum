@@ -35,32 +35,31 @@ for more detail.
 ### Constant specific method implementation
 
 Let's try to create Enum class with *ConstantSpecificEnum*.
-To use method as function overloading, create the registory
-with *RegisterFactory* for target Enum class.
+To use a method as function overloading, add *@overload(CONSTANT)* decorator
+on that method. The *overload* decorator is implicitly defined as well as
+you'll see lator in *ImplicitEnum* section.
 
 ```python
->>> from extenum import ConstantSpecificEnum, RegisterFactory
+>>> from extenum import ConstantSpecificEnum
 >>> class Operation(ConstantSpecificEnum):
 ...     PLUS = '+'
 ...     MINUS = '-'
 ...     TIMES = '*'
 ...     DIVIDE = '/'
 ...
-...     overload = RegisterFactory()
-...
-...     @overload.register(PLUS)
+...     @overload(PLUS)
 ...     def apply(self, x, y):
 ...         return x + y
 ...
-...     @overload.register(MINUS)
+...     @overload(MINUS)
 ...     def apply(self, x, y):
 ...         return x - y
 ...
-...     @overload.register(TIMES)
+...     @overload(TIMES)
 ...     def apply(self, x, y):
 ...         return x * y
 ...
-...     @overload.register(DIVIDE)
+...     @overload(DIVIDE)
 ...     def apply(self, x, y):
 ...         return x / y
 ...
@@ -80,20 +79,18 @@ DIVIDE : 0.5
 The strategy enum is more complex pattern based on constant specific method.
 
 ```python
->>> from extenum import ConstantSpecificEnum, RegisterFactory
+>>> from extenum import ConstantSpecificEnum
 >>> class PayrollDay(ConstantSpecificEnum):
 ...
 ...     class PayType(ConstantSpecificEnum):
 ...         WEEKDAY = 1
 ...         WEEKEND = 2
 ...
-...         overload = RegisterFactory()
-...
-...         @overload.register(WEEKDAY)
+...         @overload(WEEKDAY)
 ...         def overtime_pay(self, hours, pay_rate):
 ...             return 0 if hours <= 8 else (hours - 8) * pay_rate / 2
 ...
-...         @overload.register(WEEKEND)
+...         @overload(WEEKEND)
 ...         def overtime_pay(self, hours, pay_rate):
 ...             return hours * pay_rate / 2
 ...

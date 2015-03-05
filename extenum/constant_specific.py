@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-from enum import Enum, EnumMeta
+from collections import defaultdict
+from enum import Enum, EnumMeta, _EnumDict
 from functools import update_wrapper
 
 __all__ = [
     'ConstantSpecificEnum',
-    'RegisterFactory',
 ]
+
+_OVERLOAD_FACTORY_NAME = 'overload'
 
 
 class _MethodRegister:
@@ -33,30 +35,38 @@ class _MethodRegister:
         return register
 
 
-class RegisterFactory:
+class _EnumDefaultDict(_EnumDict, defaultdict):
 
-    def __init__(self):
-        self.register = _MethodRegister()
+    def __missing__(self, key):
+        if key == _OVERLOAD_FACTORY_NAME:
+            self[key] = overlaod = _MethodRegister()
+            return overlaod
+        elif key == 'ConstantSpecificEnum':
+            return ConstantSpecificEnum
 
-    def register(self, const):
-        return self.register(const)
+        raise KeyError('Do not handle in here')
 
 
 class _ConstantSpecificMeta(EnumMeta):
 
+    @classmethod
+    def __prepare__(metacls, cls, bases):
+        return _EnumDefaultDict()
+
     def __new__(metacls, cls, bases, classdict):
-        factory_instance = None
-        factory_items = list(filter(
-            lambda t: isinstance(t[1], RegisterFactory), classdict.items()))
-        if factory_items:
-            name, _ = factory_items[0]
-            factory_instance = classdict.pop(name)
+        method_register = None
+        overload_items = list(filter(
+            lambda t: isinstance(t[1], _MethodRegister), classdict.items()))
+
+        if overload_items:
+            name, _ = overload_items[0]
+            method_register = classdict.pop(name)
             classdict._member_names.pop(classdict._member_names.index(name))
 
         enum_class = super().__new__(metacls, cls, bases, classdict)
 
-        if factory_instance is not None:
-            enum_class._method_register = factory_instance.register
+        if method_register is not None:
+            enum_class._method_register = method_register
 
         wrapped_methods = {key for key, value in classdict.items()
                            if hasattr(value, '__wrapped__')}

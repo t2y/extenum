@@ -2,7 +2,7 @@
 from operator import methodcaller
 
 import pytest
-from extenum import ConstantSpecificEnum, RegisterFactory
+from extenum import ConstantSpecificEnum
 
 
 def test_constant_specific_method():
@@ -10,31 +10,29 @@ def test_constant_specific_method():
         ONE = 1
         TWO = 2
 
-        overload = RegisterFactory()
-
         @property
-        @overload.register(ONE)
+        @overload(ONE)
         def alias(self):
             return 'alias {}'.format(self.name)
 
         @property
-        @overload.register(TWO)
+        @overload(TWO)
         def alias(self):
             return 'alias {}'.format(self.name)
 
-        @overload.register(ONE)
+        @overload(ONE)
         def is_one(self):
             return True
 
-        @overload.register(ONE)
+        @overload(ONE)
         def is_two(self):
             return False
 
-        @overload.register(TWO)
+        @overload(TWO)
         def is_one(self):
             return False
 
-        @overload.register(TWO)
+        @overload(TWO)
         def is_two(self):
             return True
 
@@ -59,13 +57,11 @@ def test_strategy_enum_pattern():
             WEEKDAY = 1
             WEEKEND = 2
 
-            overload = RegisterFactory()
-
-            @overload.register(WEEKDAY)
+            @overload(WEEKDAY)
             def overtime_pay(self, hours, pay_rate):
                 return 0 if hours <= 8 else (hours - 8) * pay_rate / 2
 
-            @overload.register(WEEKEND)
+            @overload(WEEKEND)
             def overtime_pay(self, hours, pay_rate):
                 return hours * pay_rate / 2
 
@@ -103,12 +99,25 @@ def test_raise_const_is_not_registered():
             ONE = 1
             TWO = 2
 
-            overload = RegisterFactory()
-
-            @overload.register(ONE)
+            @overload(ONE)
             def test(self): pass
 
     expected = '<TestEnum.TWO: 2> is not registered'
+    assert str(excinfo.value) == expected
+
+
+def test_raise_const_is_not_defined():
+    with pytest.raises(NameError) as excinfo:
+        class TestEnum(ConstantSpecificEnum):
+            ONE = 1
+
+            @overload(ONE)
+            def one(self): pass
+
+            @overload(TWO)
+            def one(self): pass
+
+    expected = "name 'TWO' is not defined"
     assert str(excinfo.value) == expected
 
 
@@ -118,15 +127,13 @@ def test_raise_function_is_not_registered():
             ONE = 1
             TWO = 2
 
-            overload = RegisterFactory()
-
-            @overload.register(ONE)
+            @overload(ONE)
             def one(self): pass
 
-            @overload.register(TWO)
+            @overload(TWO)
             def one(self): pass
 
-            @overload.register(TWO)
+            @overload(TWO)
             def two(self): pass
 
     expected = '<TestEnum.ONE: 1>.two function is not registered'
@@ -144,8 +151,6 @@ def test_work_as_planet_constant_specific_enum():
         URANUS = (8.686e+25, 2.5559e7)
         NEPTUNE = (1.024e+26, 2.4746e7)
 
-        overload = RegisterFactory()
-
         def __init__(self, mass, radius):
             self.mass = mass      # in kilograms
             self.radius = radius  # in meters
@@ -156,35 +161,35 @@ def test_work_as_planet_constant_specific_enum():
             G = 6.67300E-11
             return G * self.mass / (self.radius * self.radius)
 
-        @overload.register(MERCURY)
+        @overload(MERCURY)
         def name(self):
             return 'MERCURY'
 
-        @overload.register(VENUS)
+        @overload(VENUS)
         def name(self):
             return 'VENUS'
 
-        @overload.register(EARTH)
+        @overload(EARTH)
         def name(self):
             return 'EARTH'
 
-        @overload.register(MARS)
+        @overload(MARS)
         def name(self):
             return 'MARS'
 
-        @overload.register(JUPITER)
+        @overload(JUPITER)
         def name(self):
             return 'JUPITER'
 
-        @overload.register(SATURN)
+        @overload(SATURN)
         def name(self):
             return 'SATURN'
 
-        @overload.register(URANUS)
+        @overload(URANUS)
         def name(self):
             return 'URANUS'
 
-        @overload.register(NEPTUNE)
+        @overload(NEPTUNE)
         def name(self):
             return 'NEPTUNE'
 
