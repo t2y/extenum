@@ -181,3 +181,48 @@ However, it depends on the declation order.
 1
 
 ```
+
+
+## EnumSet
+
+EnumSet is one of the specialized implementation of Set interface for enumeration type,
+inspired by [Java EnumSet](http://docs.oracle.com/javase/8/docs/api/java/util/EnumSet.html).
+
+It provides utility functions to handle multiple Enum constants.
+
+```python
+>>> from enum import Enum
+>>> from extenum import EnumSet
+>>> class Mode(Enum):
+...     READ = 4
+...     WRITE = 2
+...     EXECUTE = 1
+...
+...     @classmethod
+...     def set_of(cls, values):
+...         opts = EnumSet.none_of(cls)
+...         for value in values:
+...             opts.add(cls(value))
+...         return opts
+...
+>>> Mode.set_of([4, 2])  # doctest: +SKIP
+EnumSet({<Mode.READ: 4>, <Mode.WRITE: 2>})
+```
+
+To create EnumSet with all Enum members:
+
+```python
+>>> EnumSet.all_of(Mode)  # doctest: +SKIP
+EnumSet({<Mode.READ: 4>, <Mode.WRITE: 2>, <Mode.EXECUTE: 1>})
+```
+
+Or, to create EnumSet with arbitrary Enum members:
+
+```python
+>>> enumset = EnumSet.of(Mode.READ, Mode.EXECUTE)
+>>> enumset  # doctest: +SKIP
+EnumSet({<Mode.READ: 4>, <Mode.EXECUTE: 1>})
+>>> enumset.update(EnumSet.of(Mode.READ, Mode.WRITE))
+>>> enumset  # doctest: +SKIP
+EnumSet({<Mode.READ: 4>, <Mode.WRITE: 2>, <Mode.EXECUTE: 1>})
+```
