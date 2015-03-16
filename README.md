@@ -12,7 +12,7 @@ The [enum](https://docs.python.org/3/library/enum.html) module was added
 since 3.4. That's good enough for simple use.
 The extenum is strongly inspired by Java Enum style described in
 [Effective Java](http://en.wikipedia.org/wiki/Joshua_Bloch#Effective_Java)
-and privides additional feature.
+and provides additional feature.
 
 
 ## How to install
@@ -37,7 +37,7 @@ for more detail.
 Let's try to create Enum class with *ConstantSpecificEnum*.
 To use a method as function overloading, add *@overload(CONSTANT)* decorator
 on that method. The *overload* decorator is implicitly defined as well as
-you'll see lator in *ImplicitEnum* section.
+you'll see later in *ImplicitEnum* section.
 
 ```python
 >>> from extenum import ConstantSpecificEnum
@@ -165,7 +165,7 @@ It works well if some constants are explicit and the rest are implicit.
 
 ```
 
-However, it depends on the declation order.
+However, it depends on the declaration order.
 
 ```python
 >>> class DuplicatedValues(ImplicitEnum):
