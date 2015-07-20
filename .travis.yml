@@ -9,7 +9,8 @@ env:
 
 install:
   - pip install --upgrade pip
-  - travis_retry pip install --use-mirrors tox
+  - pip --version
+  - travis_retry pip install tox
 
 script:
   - travis_retry tox
