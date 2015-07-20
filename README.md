@@ -6,7 +6,7 @@
 [![License](https://pypip.in/license/extenum/badge.svg)](https://pypi.python.org/pypi/extenum/)
 
 
-Extended Enum classes for the Python 3 enum module.
+Extended Enum classes for Python 3 enum module.
 
 The [enum](https://docs.python.org/3/library/enum.html) module was added
 since 3.4. That's good enough for simple use.
@@ -130,7 +130,7 @@ Nick Coghlan as below.
 * [Support for alternate declaration syntaxes](http://python-notes.curiousefficiency.org/en/latest/python3/enum_creation.html#support-for-alternate-declaration-syntaxes)
 
 OK. I guess you've already understood why the standard enum module haven't
-supported implicit declaration syntax.
+support implicit declaration syntax.
 
 Put aside its needs for now, Nick indicates how to implement *ImplicitEnum*.
 So, let's try to implement it experimentally using the special method,
