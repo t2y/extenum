@@ -8,6 +8,7 @@ env:
   - TOXENV=pypy3
 
 install:
+  - pip install --upgrade pip
   - travis_retry pip install --use-mirrors tox
 
 script:
