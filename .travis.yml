@@ -9,6 +9,7 @@ install:
   - pip install --upgrade pip
   - pip --version
   - travis_retry pip install pytest-pep8 pytest-flakes
+  - python setup.py install
 
 script:
   - py.test -v --pep8 --flakes extenum tests
