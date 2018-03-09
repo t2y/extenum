@@ -1,11 +1,13 @@
 language: python
 sudo: false
+python: 3.6
 
 env:
-  - TOXENV=py32
-  - TOXENV=py33
-  - TOXENV=py34
-  - TOXENV=pypy3
+  matrix:
+    - TOXENV=py34
+    - TOXENV=py35
+    - TOXENV=py36
+    - TOXENV=pypy3.5
 
 install:
   - pip install --upgrade pip
