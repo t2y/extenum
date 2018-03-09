@@ -1,18 +1,14 @@
 language: python
-sudo: false
-python: 3.6
-
-env:
-  matrix:
-    - TOXENV=py34
-    - TOXENV=py35
-    - TOXENV=py36
-    - TOXENV=pypy3.5
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "pypy3.5"
 
 install:
   - pip install --upgrade pip
   - pip --version
-  - travis_retry pip install tox
+  - travis_retry pip install pytest-pep8 pytest-flakes
 
 script:
-  - travis_retry tox
+  - py.test -v --pep8 --flakes extenum tests
