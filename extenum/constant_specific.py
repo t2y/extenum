@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collections import defaultdict
 from enum import Enum, EnumMeta, _EnumDict
 from functools import update_wrapper

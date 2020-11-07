@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import builtins
 from collections import defaultdict
 from enum import Enum, EnumMeta, _EnumDict
