@@ -1,15 +1,16 @@
 language: python
 python:
-  - "3.4"
-  - "3.5"
   - "3.6"
-  - "pypy3.5"
+  - "3.7"
+  - "3.8"
+  - "3.9"
+  - "pypy3.6"
 
 install:
   - pip install --upgrade pip
   - pip --version
-  - travis_retry pip install pytest-pep8 pytest-flakes
+  - travis_retry pip install pytest-flake8
   - python setup.py install
 
 script:
-  - py.test -v --pep8 --flakes extenum tests
+  - py.test -v --flake8 extenum tests
