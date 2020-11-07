@@ -1,5 +1,7 @@
 import pytest
-from extenum import *  # pragma: no flakes
+
+from extenum import ConstantSpecificEnum
+from extenum import ImplicitEnum
 
 
 @pytest.mark.parametrize('enum_cls', [

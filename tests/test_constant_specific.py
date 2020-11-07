@@ -99,7 +99,8 @@ def test_raise_const_is_not_registered():
             TWO = 2
 
             @overload(ONE)
-            def test(self): pass
+            def test(self):
+                pass
 
     expected = '<TestEnum.TWO: 2> is not registered'
     assert str(excinfo.value) == expected
@@ -111,10 +112,12 @@ def test_raise_const_is_not_defined():
             ONE = 1
 
             @overload(ONE)
-            def one(self): pass
+            def one(self):
+                pass
 
             @overload(TWO)
-            def one(self): pass
+            def one(self):
+                pass
 
     expected = "name 'TWO' is not defined"
     assert str(excinfo.value) == expected
@@ -127,13 +130,16 @@ def test_raise_function_is_not_registered():
             TWO = 2
 
             @overload(ONE)
-            def one(self): pass
+            def one(self):
+                pass
 
             @overload(TWO)
-            def one(self): pass
+            def one(self):
+                pass
 
             @overload(TWO)
-            def two(self): pass
+            def two(self):
+                pass
 
     expected = '<TestEnum.ONE: 1>.two function is not registered'
     assert str(excinfo.value) == expected
