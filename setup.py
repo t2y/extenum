@@ -1,31 +1,25 @@
+import os
 import re
 import sys
 
 from setuptools import setup
 
 
-try:
-    import pypandoc
-    LONG_DESCRIPTION = '\n'.join([
-        pypandoc.convert('README.md', 'rst'),
-        pypandoc.convert('CHANGELOG.md', 'rst'),
-    ])
-except (IOError, ImportError):
-    LONG_DESCRIPTION = ''
+long_description = ''
+this_directory = os.path.abspath(os.path.dirname(__file__))
+for md in ('README.md', 'CHANGELOG.md'):
+    with open(os.path.join(this_directory, md), encoding='utf-8') as f:
+        long_description += f.read()
 
 init_py = open('extenum/__init__.py').read()
 metadata = dict(re.findall("__([a-z]+)__ = '([^']+)'", init_py))
-
-REQUIRES = []
-if sys.version_info < (3, 4):
-    REQUIRES.append('enum34')
-
 
 setup(
     name='extenum',
     version=metadata['version'],
     description='Extended Enum classes for the Python 3 enum module',
-    long_description=LONG_DESCRIPTION,
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     classifiers=[
         'License :: OSI Approved :: Apache Software License',
         'Development Status :: 4 - Beta',
@@ -34,9 +28,10 @@ setup(
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: POSIX',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3 :: Only',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
@@ -44,12 +39,12 @@ setup(
     ],
     keywords=['enum'],
     author='Tetsuya Morimoto',
-    author_email='tetsuya dot morimoto at gmail dot com',
+    author_email='tetsuya.morimoto@gmail.com ',
     url='https://github.com/t2y/extenum',
     license='Apache License 2.0',
     platforms=['unix', 'linux', 'osx', 'windows'],
     packages=['extenum'],
     include_package_data=True,
-    install_requires=REQUIRES,
-    tests_require=['tox', 'pytest', 'pytest-pep8', 'pytest-flakes'],
+    install_requires=[],
+    tests_require=['tox', 'pytest', 'pytest-flake8'],
 )

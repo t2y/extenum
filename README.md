@@ -17,10 +17,9 @@ and provides additional feature.
 
 ## How to install
 
-NOTE: extenum supports Python 3 only.
-
-    $ pip install extenum
-
+```bash
+$ pip install extenum
+```
 
 ## ConstantSpecificEnum
 
